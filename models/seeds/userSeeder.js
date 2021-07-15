@@ -1,5 +1,6 @@
+const mongoose = require('mongoose')
 const User = require('../user')
-const db = require('../../config/mongoose')
+const db = mongoose.connection
 
 mongoose.connect('mongodb://localhost/password-checking-practice', { 
   useNewUrlParser: true, 
@@ -34,10 +35,7 @@ const users = [
   }
 ]
 
-
 db.once('open', () => {
-  console.log('mongodb connected!')
+  User.create(users)
+  console.log('done')
 })
-
-// 登入需要CRUD? -> 不用
-// 但是創建使用者和設定就要
