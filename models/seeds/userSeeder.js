@@ -35,6 +35,7 @@ const users = [
   }
 ]
 
+// create 的用意是什麼?
 db.once('open', () => {
   User.create(users)
   console.log('done')
