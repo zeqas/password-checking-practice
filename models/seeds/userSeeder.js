@@ -1,11 +1,5 @@
-const mongoose = require('mongoose')
 const User = require('../user')
-const db = mongoose.connection
-
-mongoose.connect('mongodb://localhost/password-checking-practice', { 
-  useNewUrlParser: true, 
-  useUnifiedTopology: true 
-})
+require('../../config/mongoose')
 
 const users = [
   {
@@ -35,8 +29,8 @@ const users = [
   }
 ]
 
-// create 的用意是什麼?
+// create 的用意是什麼? 建立資料
 db.once('open', () => {
   User.create(users)
-  console.log('done')
+  console.log('User data have been established.')
 })
