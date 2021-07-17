@@ -1,24 +1,33 @@
 const express = require('express')
 const router = express.Router()
-
 const User = require('../../models/user')
 
 router.get('/', (req, res) => {
-  res.render('login')
+  return res.redirect('/login')
 })
 
-router.post('/', (req, res) => {
-  const { email, password } = req.body
+router.get('/login', (req, res) => {
+  return res.render('login')
+})
 
-  User.find({ email, password })
+router.post('/login', (req, res) => {
+  User.findOne({ email: req.body.email })
     .lean()
     .then(user => {
-      if (user.length === 1) {
-        res.render('welcome', { name: user[0].firstName })
+      if (!user || (user.password !== req.body.password)) {
+        return res.render('login', { alert: true })
       }
-      res.render('login', { loginFail: "true", email })
+      return res.redirect(`/authorized/${user._id}`)
     })
-    .catch(error => console.log(error))
+})
+
+router.get('/authorized/:id', (req, res) => {
+  const id = req.params.id
+  return User.findById(id)
+    .lean()
+    .then(user => {
+      res.render('authorized', { user })
+    })
 })
 
 module.exports = router

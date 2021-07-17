@@ -1,5 +1,5 @@
 const User = require('../user')
-require('../../config/mongoose')
+const db = require('../../config/mongoose')
 
 const users = [
   {
@@ -29,8 +29,13 @@ const users = [
   }
 ]
 
-// create 的用意是什麼? 建立資料
 db.once('open', () => {
-  User.create(users)
-  console.log('User data have been established.')
+  users.forEach(user => {
+    User.create({
+      firstName: user.firstName,
+      email: user.email,
+      password: user.password
+    })
+  })
+  console.log(`Users' data have been established.`)
 })
