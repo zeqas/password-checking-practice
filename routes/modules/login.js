@@ -1,4 +1,5 @@
 const express = require('express')
+const passport = require('passport')
 const router = express.Router()
 const User = require('../../models/user')
 
@@ -10,15 +11,11 @@ router.get('/login', (req, res) => {
   return res.render('login')
 })
 
-router.post('/login', (req, res) => {
-  User.findOne({ email: req.body.email })
-    .lean()
-    .then(user => {
-      if (!user || (user.password !== req.body.password)) {
-        return res.render('login', { alert: true })
-      }
-      return res.redirect(`/authorized/${user._id}`)
-    })
+
+// 利用 passport 驗證
+router.post('/login', passport.authenticate('local', 
+  { failureRedirect: '/login' }), (req, res) => {
+    return res.redirect(`/authorized/${req.user._id}`)
 })
 
 router.get('/authorized/:id', (req, res) => {
