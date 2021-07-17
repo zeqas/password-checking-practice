@@ -49,7 +49,7 @@ git clone https://github.com/zeqas/password-checking-practice.git
 ```
 2. 進入專案資料夾
 ```
-cd login-practice
+cd password-checking-practice
 ```
 3. 安裝套件
 ```
@@ -65,4 +65,4 @@ npm run dev
 ```
 6. 出現下列訊息，表示啟動成功，可點選連結開啟網頁
 
-app is running on http://localhost:${port}/login
+app is running on http://localhost:3000/login
